@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ClientController {
     private final ClientService clientService;
     @Autowired
-    public ProductController(ClientService clientService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
