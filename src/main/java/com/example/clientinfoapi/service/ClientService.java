@@ -1,7 +1,6 @@
 package com.example.clientinfoapi.service;
 
 import com.example.clientinfoapi.model.Client;
-import com.example.clientinfoapi.model.Contact;
 import com.example.clientinfoapi.repository.ClientRepository;
 import com.example.clientinfoapi.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,10 @@ public class ClientService {
         this.contactRepository = contactRepository;
     }
 
-    public void addNewClient(){
-
+    public void addNewClient(String name){
+        Client newClient = new Client();
+        newClient.setNameClient(name);
+        clientRepository.save(newClient);
     }
     public void addNewContactType(){
 
