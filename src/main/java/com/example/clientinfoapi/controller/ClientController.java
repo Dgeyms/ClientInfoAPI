@@ -1,9 +1,12 @@
 package com.example.clientinfoapi.controller;
 
+import com.example.clientinfoapi.model.Client;
 import com.example.clientinfoapi.model.ContactType;
 import com.example.clientinfoapi.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -27,6 +30,11 @@ public class ClientController {
             @RequestParam String contactType,
             @RequestParam String value) {
         clientService.addNewContactTypeClient(clientId, contactType, value);
-
     }
+
+    @GetMapping("/getListClients")
+    public List<Client> getListClients(){
+        return clientService.findAll();
+    }
+
 }

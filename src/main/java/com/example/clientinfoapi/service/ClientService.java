@@ -8,6 +8,9 @@ import com.example.clientinfoapi.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
@@ -24,20 +27,20 @@ public class ClientService {
     public void addNewClient(String name) {
         Client newClient = new Client();
         newClient.setNameClient(name);
-        clientRepository.saveNewClient(newClient);
+        clientRepository.save(newClient);
     }
 
     public void addNewContactTypeClient(Long clientId, String contactTypeClient, String value) {
         try {
             ContactType contactType = ContactType.valueOf(contactTypeClient.toUpperCase());
-            Client client = clientRepository.searchClientById(clientId);
+            Optional<Client> client = clientRepository.findById(clientId);
                 if (client != null){
                     Contact newContact = new Contact();
                     newContact.setContactType(contactType);
                     newContact.setValue(value);
                     newContact.setClientId(client);
 
-                    contactRepository.saveNewContactInDataBase(newContact);
+                    contactRepository.save(newContact);
                 }else{
                     System.out.println("Client with ID not found" + clientId);
                 }
@@ -46,8 +49,8 @@ public class ClientService {
         }
     }
 
-    public void getListClient() {
-
+    public List<Client> findAll() {
+        return clientRepository.findAll();
     }
 
     public void getClientById() {

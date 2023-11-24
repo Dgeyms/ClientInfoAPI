@@ -10,5 +10,5 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     // findByClientId: Это шаблонное название метода, где ClientId - это поле в сущности Contact,
     // и Spring Data JPA автоматически создаст SQL-запрос для поиска всех контактов по заданному clientId.
     List<Contact> findByClientId(Long clientId);
-    void saveNewContactInDataBase(Contact newContact);
+    Object save(Contact newContact);
 }
