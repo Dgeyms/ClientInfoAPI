@@ -10,7 +10,7 @@ import java.util.Optional;
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Optional<Client> id;
     @Enumerated(EnumType.STRING)
     private ContactType contactType;
     private String value;

@@ -5,7 +5,6 @@ import com.example.clientinfoapi.model.Contact;
 import com.example.clientinfoapi.model.ContactType;
 import com.example.clientinfoapi.repository.ClientRepository;
 import com.example.clientinfoapi.repository.ContactRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

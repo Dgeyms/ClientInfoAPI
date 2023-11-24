@@ -36,8 +36,13 @@ public class ClientController {
     }
 
     @GetMapping("/getListClients")
-    public List<Client> getListClients(){
-        return clientService.findAll();
+    public ResponseEntity<List<Client>> getListClients(){
+        List<Client> listClients = clientService.findAll();
+        if(!listClients.isEmpty()){
+            return new ResponseEntity<>(listClients, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     @GetMapping("getInfoClient/{clientId}")
     public ResponseEntity<Client> getClientInformationById(
