@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Optional<Client> findById(Long clientId);
-
-    Object save(Client newClient);
+    Client save(Client newClient);
     List<Client> findAll();
 }

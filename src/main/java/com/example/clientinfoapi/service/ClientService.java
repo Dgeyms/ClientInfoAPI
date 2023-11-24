@@ -15,13 +15,11 @@ import java.util.Optional;
 public class ClientService {
     private final ClientRepository clientRepository;
     private final ContactRepository contactRepository;
-    private final ContactType contactType;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ContactRepository contactRepository, ContactType contactType) {
+    public ClientService(ClientRepository clientRepository, ContactRepository contactRepository) {
         this.clientRepository = clientRepository;
         this.contactRepository = contactRepository;
-        this.contactType = contactType;
     }
 
     public void addNewClient(String name) {
@@ -34,12 +32,8 @@ public class ClientService {
         try {
             ContactType contactType = ContactType.valueOf(contactTypeClient.toUpperCase());
             Optional<Client> client = clientRepository.findById(clientId);
-            if (client != null) {
-                Contact newContact = new Contact();
-                newContact.setContactType(contactType);
-                newContact.setValue(value);
-                newContact.setId(client);
-
+            if (client.isPresent()) {
+                Contact newContact = createNewContact(contactType, value, client.get());
                 contactRepository.save(newContact);
             } else {
                 System.out.println("Client with ID not found" + clientId);
@@ -54,18 +48,27 @@ public class ClientService {
     }
 
     public Optional<Client> getClientInformationById(Long clientId) {
-            Optional<Client> client = clientRepository.findById(clientId);
-            return client;
+        return clientRepository.findById(clientId);
     }
 
+    public List<Contact> getListContactsForClient(Long clientId) {
+        List<Contact> listContacts = contactRepository.getListContactsForClient(clientId);
+        return listContacts;
+    }
 
-        public void getListContactByClient () {
+    public List<Contact> getListContactsByTypeClient(Long clientId, String contactTypeClient) {
+        ContactType contactType = ContactType.valueOf(contactTypeClient.toUpperCase());
 
-        }
+        List<Contact> listContactByType = contactRepository.getListContactsByTypeClient(clientId, contactType);
+        return listContactByType;
+    }
 
-        public void getContactsByClientIdAndType () {
+    private Contact createNewContact(ContactType contactType, String value, Client client) {
+        Contact newContact = new Contact();
+        newContact.setContactType(contactType);
+        newContact.setValue(value);
+        newContact.setId(client);
 
-        }
-
-
+        return newContact;
+    }
 }
