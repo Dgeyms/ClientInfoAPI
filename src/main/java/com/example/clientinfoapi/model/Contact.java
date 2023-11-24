@@ -1,19 +1,27 @@
 package com.example.clientinfoapi.model;
 
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 public class Contact {
-    private Client client;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
     private ContactType contactType;
     private String value;
 
-    public void setClientId(Optional<Client> client) {
-        this.client = client;
-    }
+    @ManyToMany
+    @JoinColumn(name = "client_id")
+    private Client client;
 
+    public void setId(Optional<Client> id) {
+        this.id = id;
+    }
     public void setContactType(ContactType contactType) {
         this.contactType = contactType;
     }

@@ -4,9 +4,12 @@ import com.example.clientinfoapi.model.Client;
 import com.example.clientinfoapi.model.ContactType;
 import com.example.clientinfoapi.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -36,5 +39,12 @@ public class ClientController {
     public List<Client> getListClients(){
         return clientService.findAll();
     }
-
+    @GetMapping("getInfoClient/{clientId}")
+    public ResponseEntity<Client> getClientInformationById(
+            @PathVariable Long clientId){
+              Optional<Client> clientOptional = clientService.getClientInformationById(clientId);
+              return clientOptional
+                      .map(client -> new ResponseEntity<>(client, HttpStatus.OK))
+                      .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

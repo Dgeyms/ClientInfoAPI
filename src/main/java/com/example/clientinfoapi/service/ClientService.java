@@ -5,6 +5,7 @@ import com.example.clientinfoapi.model.Contact;
 import com.example.clientinfoapi.model.ContactType;
 import com.example.clientinfoapi.repository.ClientRepository;
 import com.example.clientinfoapi.repository.ContactRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +35,16 @@ public class ClientService {
         try {
             ContactType contactType = ContactType.valueOf(contactTypeClient.toUpperCase());
             Optional<Client> client = clientRepository.findById(clientId);
-                if (client != null){
-                    Contact newContact = new Contact();
-                    newContact.setContactType(contactType);
-                    newContact.setValue(value);
-                    newContact.setClientId(client);
+            if (client != null) {
+                Contact newContact = new Contact();
+                newContact.setContactType(contactType);
+                newContact.setValue(value);
+                newContact.setId(client);
 
-                    contactRepository.save(newContact);
-                }else{
-                    System.out.println("Client with ID not found" + clientId);
-                }
+                contactRepository.save(newContact);
+            } else {
+                System.out.println("Client with ID not found" + clientId);
+            }
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -53,15 +54,19 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public void getClientById() {
-
+    public Optional<Client> getClientInformationById(Long clientId) {
+            Optional<Client> client = clientRepository.findById(clientId);
+            return client;
     }
 
-    public void getListContactByClient() {
 
-    }
+        public void getListContactByClient () {
 
-    public void getContactsByClientIdAndType() {
+        }
 
-    }
+        public void getContactsByClientIdAndType () {
+
+        }
+
+
 }
